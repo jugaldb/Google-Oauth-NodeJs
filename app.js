@@ -3,31 +3,20 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-
-
-
-
 const app = express();
 
-
-
-
-const dbURI = ""//your database connection string
-
+const dbURI = ""; //your database connection string
 
 const passportSetup = require("./config/passport-setup");
 const passport = require("passport");
 
 const authRoutes = require("./routers/auth");
 
-
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use("/auth", authRoutes);
-
 
 mongoose
 	.connect(dbURI, {
@@ -40,8 +29,6 @@ mongoose
 
 mongoose.Promise = global.Promise;
 
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -50,17 +37,12 @@ app.use(bodyParser.json());
 //     keys: [keys.cookieSession]
 // }));
 
-
-
-
-
 //route not found
 app.use((req, res, next) => {
 	const error = new Error("Route not found");
 	error.status = 404;
 	next(error);
 });
-
 
 app.use((error, req, res, next) => {
 	res.status(error.status || 500);
@@ -76,7 +58,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}`);
 });
-
-
-
-
